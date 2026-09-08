@@ -1,0 +1,122 @@
+{
+  "info": {
+    "name": "SIH GST Compliance Prototype",
+    "description": "Phase 1 API collection - GST compliance only",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/api/health"
+      }
+    },
+    {
+      "name": "Login (Verified Officer)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"officer@gem.gov.in\",\n  \"password\": \"officer123\"\n}"
+        },
+        "url": "http://localhost:5000/api/login"
+      }
+    },
+    {
+      "name": "Login (Unverified Guest - should fail)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"guest@example.com\",\n  \"password\": \"guest123\"\n}"
+        },
+        "url": "http://localhost:5000/api/login"
+      }
+    },
+    {
+      "name": "List Tenders",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/api/tenders"
+      }
+    },
+    {
+      "name": "Upload Tender PDF",
+      "request": {
+        "method": "POST",
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "file", "type": "file", "src": "" },
+            { "key": "tender_id", "value": "GEM/2026/B/7829782", "type": "text" },
+            { "key": "tender_title", "value": "HIGH REPETITION RATE PULSED LASER SOURCE", "type": "text" },
+            { "key": "uploaded_by", "value": "2", "type": "text" }
+          ]
+        },
+        "url": "http://localhost:5000/api/tenders/upload"
+      }
+    },
+    {
+      "name": "Get Tender by ID",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/api/tenders/1"
+      }
+    },
+    {
+      "name": "Add Bidder",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tender_db_id\": 1,\n  \"bidder_name\": \"ABC Technologies\",\n  \"added_by\": 2\n}"
+        },
+        "url": "http://localhost:5000/api/bidders"
+      }
+    },
+    {
+      "name": "List Bidders for Tender",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/api/bidders/1"
+      }
+    },
+    {
+      "name": "Upload Bidder GST Document",
+      "request": {
+        "method": "POST",
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "file", "type": "file", "src": "" },
+            { "key": "document_type", "value": "GST Certificate", "type": "text" }
+          ]
+        },
+        "url": "http://localhost:5000/api/bidders/1/documents"
+      }
+    },
+    {
+      "name": "Verify GST",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"document_id\": 1,\n  \"bidder_id\": 1\n}"
+        },
+        "url": "http://localhost:5000/api/verify-gst"
+      }
+    },
+    {
+      "name": "Get Tender Compliance Dashboard",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/api/tenders/1/compliance"
+      }
+    }
+  ]
+}
